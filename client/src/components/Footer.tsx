@@ -134,23 +134,28 @@ export const Footer: React.FC = () => {
             <h5 className="font-editorial text-lg text-white mb-4 tracking-wider">Collections</h5>
             <ul className="space-y-2.5 text-xs text-[#A8BFA5]">
               <li>
-                <Link to="/shop?category=Men%27s+Collection" className="hover:text-white transition-colors">
+                <Link to="/shop?category=Mens" className="hover:text-white transition-colors">
                   Men's Collection
                 </Link>
               </li>
               <li>
-                <Link to="/shop?category=Women%27s+Collection" className="hover:text-white transition-colors">
+                <Link to="/shop?category=Womens" className="hover:text-white transition-colors">
                   Women's Collection
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Kids" className="hover:text-white transition-colors">
+                  Kids Collection
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=GenZ" className="hover:text-white transition-colors">
+                  GenZ Streetwear
                 </Link>
               </li>
               <li>
                 <Link to="/shop?category=Oversized+Tees" className="hover:text-white transition-colors">
                   Oversized Heavyweight Tees
-                </Link>
-              </li>
-              <li>
-                <Link to="/shop?category=Everyday+Essentials" className="hover:text-white transition-colors">
-                  Everyday Cotton Basics
                 </Link>
               </li>
               <li>

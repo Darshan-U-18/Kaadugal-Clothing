@@ -92,6 +92,32 @@ export const ProductDetailPage: React.FC = () => {
     fetchProductData();
   }, [idOrSlug]);
 
+  const reloadReviews = async () => {
+    if (!product) return;
+    try {
+      const [revRes, prodRes] = await Promise.all([
+        api.getReviews(product._id),
+        api.getProduct(product._id),
+      ]);
+      if (revRes && Array.isArray(revRes.reviews)) {
+        setReviews(revRes.reviews);
+      }
+      if (prodRes && prodRes.product) {
+        setProduct((prev) =>
+          prev
+            ? {
+                ...prev,
+                rating: prodRes.product.rating,
+                numReviews: prodRes.product.numReviews,
+              }
+            : prodRes.product
+        );
+      }
+    } catch (err) {
+      console.error('Failed to reload dynamic reviews:', err);
+    }
+  };
+
   if (isLoading || !product) {
     return (
       <div className="pt-32 pb-20 min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -118,14 +144,10 @@ export const ProductDetailPage: React.FC = () => {
     navigate('/checkout');
   };
 
-  const reloadReviews = async () => {
-    try {
-      const res = await api.getReviews(product._id);
-      setReviews(res.reviews);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const dynamicRating = reviews.length > 0
+    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+    : product.rating;
+  const dynamicNumReviews = reviews.length > 0 ? reviews.length : product.numReviews;
 
   return (
     <div className="pt-24 pb-24 min-h-screen bg-[#071910] text-[#F7F8F2]">
@@ -217,16 +239,16 @@ export const ProductDetailPage: React.FC = () => {
                       <Star
                         key={i}
                         className={`w-3.5 h-3.5 ${
-                          i < Math.floor(product.rating)
+                          i < Math.floor(dynamicRating)
                             ? 'fill-[#FDE68A] text-[#FDE68A]'
                             : 'text-[#163D2B]'
                         }`}
                       />
                     ))}
                   </div>
-                  <span className="font-semibold text-white">{product.rating.toFixed(1)}</span>
+                  <span className="font-semibold text-white">{dynamicRating.toFixed(1)}</span>
                   <a href="#reviews" className="text-[#A8BFA5] hover:text-[#FDE68A] underline transition-colors">
-                    ({product.numReviews} reviews)
+                    ({dynamicNumReviews} reviews)
                   </a>
                 </div>
               </div>
@@ -468,15 +490,15 @@ export const ProductDetailPage: React.FC = () => {
                     <Star
                       key={i}
                       className={`w-4 h-4 ${
-                        i < Math.floor(product.rating)
+                        i < Math.floor(dynamicRating)
                           ? 'fill-[#FDE68A] text-[#FDE68A]'
                           : 'text-[#163D2B]'
                       }`}
                     />
                   ))}
                 </div>
-                <span className="text-sm font-bold text-white">{product.rating.toFixed(1)} / 5</span>
-                <span className="text-xs text-[#A8BFA5]">Based on {reviews.length} authentic reviews</span>
+                <span className="text-sm font-bold text-white">{dynamicRating.toFixed(1)} / 5</span>
+                <span className="text-xs text-[#A8BFA5]">Based on {dynamicNumReviews} authentic reviews</span>
               </div>
             </div>
 

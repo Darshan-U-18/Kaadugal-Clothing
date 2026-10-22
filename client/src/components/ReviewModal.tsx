@@ -47,15 +47,18 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
         rating,
         title,
         comment,
-        userName: userName || user?.name || 'Nature Enthusiast',
-        userEmail: userEmail || user?.email || 'guest@kaadugal.com',
+        userName: userName.trim() || user?.name || 'Nature Enthusiast',
+        userEmail: userEmail.trim() || user?.email || 'guest@kaadugal.com',
       });
       setIsSuccess(true);
+      // Dynamically reload reviews immediately
+      onReviewSubmitted();
       setTimeout(() => {
         setIsSuccess(false);
-        onReviewSubmitted();
+        setTitle('');
+        setComment('');
         onClose();
-      }, 1400);
+      }, 1000);
     } catch (err: any) {
       setError(err.message || 'Failed to submit review');
     } finally {

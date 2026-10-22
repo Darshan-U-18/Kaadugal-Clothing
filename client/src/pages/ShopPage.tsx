@@ -182,8 +182,10 @@ export const ShopPage: React.FC = () => {
                 cat.value === 'all'
                   ? !currentCategory || currentCategory === 'all'
                   : currentCategory.toLowerCase() === cat.value.toLowerCase() ||
-                  (cat.value === 'Mens' && currentCategory.toLowerCase() === 'men') ||
-                  (cat.value === 'Womens' && currentCategory.toLowerCase() === 'women');
+                  (cat.value === 'Mens' && currentCategory.toLowerCase().includes('men') && !currentCategory.toLowerCase().includes('women')) ||
+                  (cat.value === 'Womens' && currentCategory.toLowerCase().includes('women')) ||
+                  (cat.value === 'Kids' && currentCategory.toLowerCase().includes('kid')) ||
+                  (cat.value === 'GenZ' && (currentCategory.toLowerCase().includes('gen') || currentCategory.toLowerCase().includes('streetwear')));
 
               return (
                 <button
@@ -477,8 +479,10 @@ export const ShopPage: React.FC = () => {
                       c.value === 'all'
                         ? !currentCategory || currentCategory === 'all'
                         : currentCategory.toLowerCase() === c.value.toLowerCase() ||
-                        (c.value === 'Mens' && currentCategory.toLowerCase() === 'men') ||
-                        (c.value === 'Womens' && currentCategory.toLowerCase() === 'women');
+                        (c.value === 'Mens' && currentCategory.toLowerCase().includes('men') && !currentCategory.toLowerCase().includes('women')) ||
+                        (c.value === 'Womens' && currentCategory.toLowerCase().includes('women')) ||
+                        (c.value === 'Kids' && currentCategory.toLowerCase().includes('kid')) ||
+                        (c.value === 'GenZ' && (currentCategory.toLowerCase().includes('gen') || currentCategory.toLowerCase().includes('streetwear')));
 
                     return (
                       <button

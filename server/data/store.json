@@ -147,8 +147,8 @@
       "isBestseller": true,
       "isNewArrival": true,
       "isFeatured": true,
-      "rating": 4.6,
-      "numReviews": 16,
+      "rating": 5,
+      "numReviews": 3,
       "materials": "100% GOTS Certified Organic Cotton (240 GSM)",
       "careInstructions": "Machine wash cold inside out with like colors. Line dry in shade.",
       "tags": [
@@ -157,7 +157,7 @@
         "new arrival"
       ],
       "createdAt": "2026-10-21T05:21:51.052Z",
-      "updatedAt": "2026-10-21T05:21:51.052Z"
+      "updatedAt": "2026-10-22T16:03:18.369Z"
     },
     {
       "_id": "prod_genz_002",
@@ -576,8 +576,8 @@
       "isBestseller": false,
       "isNewArrival": true,
       "isFeatured": true,
-      "rating": 4.6,
-      "numReviews": 6,
+      "rating": 5,
+      "numReviews": 1,
       "materials": "100% GOTS Certified Organic Cotton (240 GSM)",
       "careInstructions": "Machine wash cold inside out with like colors. Line dry in shade.",
       "tags": [
@@ -17218,7 +17218,7 @@
   "reviews": [
     {
       "_id": "rev_01",
-      "productId": "prod_01",
+      "productId": "prod_mens_001",
       "userName": "Arjun Menon",
       "userEmail": "arjun.m@gmail.com",
       "rating": 5,
@@ -17229,7 +17229,7 @@
     },
     {
       "_id": "rev_02",
-      "productId": "prod_01",
+      "productId": "prod_mens_001",
       "userName": "Sneha Rao",
       "userEmail": "sneha.r@gmail.com",
       "rating": 5,
@@ -17240,7 +17240,7 @@
     },
     {
       "_id": "rev_03",
-      "productId": "prod_03",
+      "productId": "prod_mens_003",
       "userName": "Vikramaditya S.",
       "userEmail": "vikram.s@outlook.com",
       "rating": 5,
@@ -17251,7 +17251,7 @@
     },
     {
       "_id": "rev_04",
-      "productId": "prod_06",
+      "productId": "prod_mens_006",
       "userName": "Karan Dave",
       "userEmail": "karan.d@gmail.com",
       "rating": 5,
@@ -17281,6 +17281,50 @@
       "comment": "asdcsdccdc",
       "verifiedPurchase": true,
       "createdAt": "2026-10-22T13:23:41.596Z"
+    },
+    {
+      "_id": "rev_womens_001_a",
+      "productId": "prod_womens_001",
+      "userName": "Ananya Sharma",
+      "userEmail": "ananya.s@gmail.com",
+      "rating": 5,
+      "title": "Breathtaking linen texture and graceful drape",
+      "comment": "The organic flax linen feels light as a feather yet holds its form beautifully. The olive tone has subtle earth variations that look magnificent in daylight.",
+      "verifiedPurchase": true,
+      "createdAt": "2026-10-20T10:15:00.000Z"
+    },
+    {
+      "_id": "rev_womens_001_b",
+      "productId": "prod_womens_001",
+      "userName": "Divya Krishnan",
+      "userEmail": "divya.k@outlook.com",
+      "rating": 5,
+      "title": "Pure understated luxury",
+      "comment": "Finishing and stitching are impeccable. Definitely my favorite everyday piece for warm afternoons.",
+      "verifiedPurchase": true,
+      "createdAt": "2026-10-18T14:20:00.000Z"
+    },
+    {
+      "_id": "rev_kids_001_a",
+      "productId": "prod_kids_001",
+      "userName": "Meera Nambiar",
+      "userEmail": "meera.n@gmail.com",
+      "rating": 5,
+      "title": "Extremely gentle on sensitive skin",
+      "comment": "Bought this for my 7-year-old son. Zero itching, chemical-free dyes, and holds up brilliantly through rough play and multiple machine washes.",
+      "verifiedPurchase": true,
+      "createdAt": "2026-10-19T08:45:00.000Z"
+    },
+    {
+      "_id": "rev_genz_001_a",
+      "productId": "prod_genz_001",
+      "userName": "Kabir V.",
+      "userEmail": "kabir.v@gmail.com",
+      "rating": 5,
+      "title": "The boxy drop-shoulder cut is next level",
+      "comment": "High GSM drape that actually stacks nicely without looking sloppy. Botanical moss colorway turns heads.",
+      "verifiedPurchase": true,
+      "createdAt": "2026-10-21T16:30:00.000Z"
     }
   ],
   "categories": []

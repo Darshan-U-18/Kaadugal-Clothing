@@ -26,26 +26,63 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
       products = products.filter((p: any) => {
         const pCat = (p.category || '').toLowerCase().trim();
         const pSub = (p.subcategory || '').toLowerCase().trim();
+        const pName = (p.name || '').toLowerCase().trim();
 
-        if (catLower === 'mens' || catLower === 'men') {
-          return (pCat === 'mens' || pCat === 'men' || pSub.includes('mens')) && !pCat.includes('women') && !pSub.includes('women');
+        // Women's Collection / Womens / Women
+        if (catLower.includes('women')) {
+          return pCat.includes('women') || pSub.includes('women') || pCat === 'womens';
         }
-        if (catLower === 'womens' || catLower === 'women') {
-          return pCat === 'womens' || pCat === 'women' || pSub.includes('women');
-        }
-        if (catLower === 'kids' || catLower === 'kid') {
-          return pCat === 'kids' || pCat === 'kid' || pSub.includes('kid');
-        }
-        if (catLower === 'genz' || catLower === 'gen-z') {
+        // Men's Collection / Mens / Men
+        if (catLower.includes('men')) {
           return (
-            pCat === 'genz' ||
-            pCat === 'gen-z' ||
+            (pCat === 'mens' || pCat === 'men' || pSub.includes('men') || pCat.includes('men')) &&
+            !pCat.includes('women') &&
+            !pSub.includes('women')
+          );
+        }
+        // Kids Collection / Kids / Kid
+        if (catLower.includes('kid')) {
+          return pCat.includes('kid') || pSub.includes('kid');
+        }
+        // GenZ Collection / GenZ / Gen-Z
+        if (catLower.includes('genz') || catLower.includes('gen-z') || catLower.includes('streetwear')) {
+          return (
+            pCat.includes('genz') ||
+            pCat.includes('gen-z') ||
             pSub.includes('genz') ||
             pSub.includes('gen-z') ||
             pCat.includes('streetwear')
           );
         }
-        return pCat === catLower || pSub.includes(catLower);
+        // Oversized Tees / Tees / T-shirts
+        if (catLower.includes('oversized') || catLower.includes('tee') || catLower.includes('t-shirt')) {
+          return (
+            pCat.includes('tee') ||
+            pSub.includes('tee') ||
+            pSub.includes('t-shirt') ||
+            pName.includes('tee') ||
+            pName.includes('t-shirt') ||
+            pName.includes('oversized')
+          );
+        }
+        // Everyday Essentials / Basics
+        if (catLower.includes('essential') || catLower.includes('basic')) {
+          return (
+            pCat.includes('essential') ||
+            pSub.includes('essential') ||
+            pName.includes('essential') ||
+            pName.includes('classic') ||
+            pName.includes('staple')
+          );
+        }
+
+        return (
+          pCat === catLower ||
+          pSub.includes(catLower) ||
+          pCat.includes(catLower) ||
+          catLower.includes(pCat) ||
+          pName.includes(catLower)
+        );
       });
     }
 

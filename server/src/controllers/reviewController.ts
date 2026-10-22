@@ -32,12 +32,12 @@ export const createReview = async (req: AuthenticatedRequest, res: Response): Pr
       verifiedPurchase: true,
     });
 
-    // Update product rating average
-    const allProdReviews = await ReviewService.findByProduct(productId);
+    // Update product rating average using canonical productId
+    const allProdReviews = await ReviewService.findByProduct(review.productId);
     const avgRating =
-      allProdReviews.reduce((sum, r) => sum + r.rating, 0) / (allProdReviews.length || 1);
+      allProdReviews.reduce((sum: any, r: any) => sum + r.rating, 0) / (allProdReviews.length || 1);
 
-    await ProductService.findByIdAndUpdate(productId, {
+    await ProductService.findByIdAndUpdate(review.productId, {
       rating: Number(avgRating.toFixed(1)),
       numReviews: allProdReviews.length,
     });
