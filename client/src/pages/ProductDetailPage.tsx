@@ -38,7 +38,6 @@ export const ProductDetailPage: React.FC = () => {
   const [isSizeFinderOpen, setIsSizeFinderOpen] = useState<boolean>(false);
   const [recommendedSize, setRecommendedSize] = useState<string | null>(null);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'details' | 'materials' | 'care'>('details');
 
   const { addToCart } = useCart();
   const { user, isInWishlist, toggleWishlist } = useAuth();
@@ -454,75 +453,6 @@ export const ProductDetailPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Technical Product Specs Tabs */}
-        <div className="mt-16 bg-[#0B2419] rounded-3xl p-8 border border-[#163D2B] shadow-xl">
-          <div className="flex items-center gap-6 border-b border-[#163D2B] pb-4">
-            <button
-              onClick={() => setActiveTab('details')}
-              className={`font-editorial text-xl pb-2 tracking-wide transition-colors relative ${
-                activeTab === 'details' ? 'text-[#FDE68A] font-bold' : 'text-[#A8BFA5] hover:text-white'
-              }`}
-            >
-              Silhouettes & Details
-              {activeTab === 'details' && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FDE68A]" />
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab('materials')}
-              className={`font-editorial text-xl pb-2 tracking-wide transition-colors relative ${
-                activeTab === 'materials' ? 'text-[#FDE68A] font-bold' : 'text-[#A8BFA5] hover:text-white'
-              }`}
-            >
-              Fabric & Sustainability
-              {activeTab === 'materials' && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FDE68A]" />
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab('care')}
-              className={`font-editorial text-xl pb-2 tracking-wide transition-colors relative ${
-                activeTab === 'care' ? 'text-[#FDE68A] font-bold' : 'text-[#A8BFA5] hover:text-white'
-              }`}
-            >
-              Care Instructions
-              {activeTab === 'care' && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FDE68A]" />
-              )}
-            </button>
-          </div>
-
-          <div className="pt-6 text-sm text-[#A8BFA5] font-light leading-relaxed">
-            {activeTab === 'details' && (
-              <div className="space-y-4">
-                <p className="text-[#F7F8F2]">{product.description}</p>
-                <ul className="list-disc pl-5 space-y-1.5 text-xs text-[#A8BFA5]">
-                  <li>Relaxed dropped-shoulder tailored aesthetic with reinforced collar ribbing.</li>
-                  <li>Blind hem stitching with premium Japanese sewing needles for longevity.</li>
-                  <li>Double-washed with bio-enzymes to prevent post-wash shrinkage.</li>
-                </ul>
-              </div>
-            )}
-            {activeTab === 'materials' && (
-              <div className="space-y-4">
-                <p className="text-[#F7F8F2]">
-                  <strong className="text-white">Material Composition:</strong> {product.materials}
-                </p>
-                <p className="text-xs text-[#A8BFA5]">
-                  Cultivated on rain-fed farms in Tamil Nadu without toxic synthetic pesticides or GMO seeds. Colored using earth-derived low-impact botanical and mineral dyes that conserve water and nourish the skin.
-                </p>
-              </div>
-            )}
-            {activeTab === 'care' && (
-              <div className="space-y-4">
-                <p className="text-[#F7F8F2]">{product.careInstructions}</p>
-                <p className="text-xs text-[#A8BFA5]">
-                  Tip: Air drying in indirect forest shade retains natural cotton luster and saves energy.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
 
         {/* Customer Reviews Section */}
         <section id="reviews" className="mt-16 bg-[#0B2419] rounded-3xl p-8 border border-[#163D2B] shadow-xl">
