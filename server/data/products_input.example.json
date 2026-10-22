@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Wilderness Heavyweight Tee",
+    "price": 1499,
+    "originalPrice": 1999,
+    "category": "Oversized Tees",
+    "subcategory": "Men",
+    "description": "240 GSM organic combed cotton garment-dyed in deep pine botanical pigment.",
+    "images": [
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80"
+    ],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": [
+      { "name": "Forest Green", "hex": "#163D2B", "inStock": true }
+    ],
+    "stock": 40,
+    "isBestseller": true,
+    "isNewArrival": true,
+    "materials": "100% GOTS Certified Organic Cotton (240 GSM)",
+    "tags": ["oversized", "forest", "organic"]
+  }
+]

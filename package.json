@@ -1,0 +1,19 @@
+{
+  "name": "kaadugal-clothing",
+  "version": "1.0.0",
+  "description": "KAADUGAL — Premium 3D Forest Clothing E-Commerce Platform",
+  "scripts": {
+    "dev": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "client": "npm --prefix client run dev",
+    "server": "npm --prefix server run dev",
+    "seed": "npm --prefix server run seed",
+    "import-products": "npm --prefix server run import-products",
+    "build": "npm --prefix client run build && npm --prefix server run build"
+  },
+  "keywords": ["fashion", "clothing", "threejs", "forest", "ecommerce"],
+  "author": "KAADUGAL",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

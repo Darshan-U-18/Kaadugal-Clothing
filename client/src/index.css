@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --forest-green: #163D2B;
+    --deep-forest: #0B2419;
+    --night-forest: #071910;
+    --leaf-green: #386641;
+    --sage-green: #A8BFA5;
+    --cream-white: #F7F8F2;
+    --pure-white: #FFFFFF;
+    --charcoal: #202820;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background-color: #071910;
+    color: #F7F8F2;
+    scroll-behavior: smooth;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  h1, h2, h3, .font-editorial {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  }
+
+  * {
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Custom utility classes */
+.font-serif-editorial {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.font-sans-modern {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Atmospheric Forest Glassmorphism */
+.glass-forest {
+  background: rgba(7, 25, 16, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(168, 191, 165, 0.12);
+}
+
+.glass-forest-solid {
+  background: rgba(11, 36, 25, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(56, 102, 65, 0.25);
+}
+
+.glass-card {
+  background: rgba(14, 44, 31, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(168, 191, 165, 0.12);
+}
+
+.glass-card:hover {
+  border-color: rgba(168, 191, 165, 0.3);
+  box-shadow: 0 16px 36px -10px rgba(5, 20, 13, 0.7);
+}
+
+/* Cinematic forest vignette overlay */
+.forest-vignette {
+  box-shadow: inset 0 0 120px rgba(4, 15, 9, 0.85);
+}
+
+/* Custom Forest Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #071910;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #163D2B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #386641;
+}
+
+/* Smooth keyframes */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.5deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes navGlow {
+  0%, 100% {
+    box-shadow: 0 4px 20px -2px rgba(11, 36, 25, 0.6);
+  }
+  50% {
+    box-shadow: 0 4px 28px 2px rgba(56, 102, 65, 0.4);
+  }
+}
+
+.animate-float {
+  animation: floatGentle 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.nav-glow {
+  animation: navGlow 5s ease-in-out infinite;
+}
