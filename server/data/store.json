@@ -3,7 +3,7 @@
     {
       "_id": "usr_admin_01",
       "name": "Kaadugal Curator (Admin)",
-      "email": "admin@kaadugal.com",
+      "email": "admin@admin.com",
       "password": "$2a$10$ki55f9bN79y0wA4nMPO/w.gwtvXlBJnkLnpAusw6sgUwD5DJbLsqa",
       "role": "admin",
       "addresses": [
@@ -62,6 +62,39 @@
       "wishlist": [],
       "createdAt": "2026-10-22T13:24:53.334Z",
       "updatedAt": "2026-10-22T13:25:07.860Z"
+    },
+    {
+      "_id": "usr_1792768047587_qzoqv",
+      "name": "Alice",
+      "email": "darshanpec2006@outlook.com",
+      "password": "$2a$10$PHHS9bydQeGLYoHMIpoZKOqhmJbB.gq9iXj5aWBFFzhXHSKpiu1O.",
+      "role": "customer",
+      "addresses": [],
+      "wishlist": [],
+      "createdAt": "2026-10-23T15:07:27.587Z",
+      "updatedAt": "2026-10-23T15:07:27.587Z"
+    },
+    {
+      "_id": "usr_1792771331049_0f9ax",
+      "name": "Alice",
+      "email": "darshan2006@gmail.com",
+      "password": "$2a$10$hKaF1FSpPkGkJQS7DfwuveoWP764cyRm8LUni7WTGr9ikBQJWcuY2",
+      "role": "customer",
+      "addresses": [],
+      "wishlist": [],
+      "createdAt": "2026-10-23T16:02:11.049Z",
+      "updatedAt": "2026-10-23T16:02:11.049Z"
+    },
+    {
+      "_id": "usr_1792771361361_m0f0f",
+      "name": "Alice",
+      "email": "darshan2006@admin.com",
+      "password": "$2a$10$U5M54eZFvaDVPj/dnc8zMePoiJ8YBwDKZBQriUL9P/wqhdibB0cvy",
+      "role": "admin",
+      "addresses": [],
+      "wishlist": [],
+      "createdAt": "2026-10-23T16:02:41.361Z",
+      "updatedAt": "2026-10-23T16:02:41.361Z"
     }
   ],
   "products": [

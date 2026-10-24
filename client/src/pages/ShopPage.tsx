@@ -243,8 +243,6 @@ export const ShopPage: React.FC = () => {
           </div>
         </div>
 
-
-
         {/* Active Filter Badges */}
         {hasActiveFilters && (
           <div className="flex items-center flex-wrap gap-2 mb-6 text-xs animate-fade-in">
@@ -501,8 +499,6 @@ export const ShopPage: React.FC = () => {
                     );
                   })}
                 </div>
-
-
               </div>
 
               {/* Size */}

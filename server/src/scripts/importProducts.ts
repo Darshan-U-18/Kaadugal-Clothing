@@ -424,11 +424,8 @@ function normalizeProduct(item: any, globalIndex: number) {
 export async function importProducts() {
   const customArg = process.argv[2];
 
-  // Reset counters
-  mensIndex = 0;
-  womensIndex = 0;
-  kidsIndex = 0;
-  genzIndex = 0;
+  // Reset category counters
+  Object.keys(categoryCounters).forEach((k) => delete categoryCounters[k]);
 
   const candidatePaths = [
     customArg ? path.resolve(customArg) : null,

@@ -14,7 +14,7 @@ export const HomePage: React.FC = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const res = await api.getProducts({ limit: 12 });
+        const res = await api.getProducts({ limit: 50 });
         const all = res.products;
         setBestsellers(all.filter((p) => p.isBestseller).slice(0, 4));
         setNewArrivals(all.filter((p) => p.isNewArrival).slice(0, 4));
@@ -202,7 +202,12 @@ export const HomePage: React.FC = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className={`grid gap-6 ${
+              bestsellers.length === 1 ? 'grid-cols-1 max-w-xs mx-auto' :
+              bestsellers.length === 2 ? 'grid-cols-2' :
+              bestsellers.length === 3 ? 'grid-cols-2 lg:grid-cols-3' :
+              'grid-cols-2 lg:grid-cols-4'
+            }`}>
               {bestsellers.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}

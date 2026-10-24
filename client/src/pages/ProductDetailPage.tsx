@@ -106,10 +106,10 @@ export const ProductDetailPage: React.FC = () => {
         setProduct((prev) =>
           prev
             ? {
-                ...prev,
-                rating: prodRes.product.rating,
-                numReviews: prodRes.product.numReviews,
-              }
+              ...prev,
+              rating: prodRes.product.rating,
+              numReviews: prodRes.product.numReviews,
+            }
             : prodRes.product
         );
       }
@@ -175,11 +175,10 @@ export const ProductDetailPage: React.FC = () => {
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(img)}
-                  className={`w-20 h-24 sm:w-full sm:h-28 rounded-xl overflow-hidden border-2 transition-all duration-300 shrink-0 ${
-                    selectedImage === img
+                  className={`w-20 h-24 sm:w-full sm:h-28 rounded-xl overflow-hidden border-2 transition-all duration-300 shrink-0 ${selectedImage === img
                       ? 'border-[#386641] shadow-lg scale-95 ring-2 ring-[#386641]/50'
                       : 'border-[#163D2B] opacity-60 hover:opacity-100 hover:border-[#386641]/50'
-                  }`}
+                    }`}
                 >
                   <img
                     src={img}
@@ -189,10 +188,10 @@ export const ProductDetailPage: React.FC = () => {
                       e.currentTarget.src = cat.includes('women')
                         ? 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80'
                         : cat.includes('kid')
-                        ? 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=1000&q=80'
-                        : cat.includes('gen')
-                        ? 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=80'
-                        : 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80';
+                          ? 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=1000&q=80'
+                          : cat.includes('gen')
+                            ? 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=80'
+                            : 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80';
                     }}
                     className="w-full h-full object-cover object-top"
                   />
@@ -210,10 +209,10 @@ export const ProductDetailPage: React.FC = () => {
                   e.currentTarget.src = cat.includes('women')
                     ? 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80'
                     : cat.includes('kid')
-                    ? 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=1000&q=80'
-                    : cat.includes('gen')
-                    ? 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=80'
-                    : 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80';
+                      ? 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=1000&q=80'
+                      : cat.includes('gen')
+                        ? 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=80'
+                        : 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80';
                 }}
                 className="w-full h-full object-cover object-top sm:object-center group-hover:scale-105 transition-transform duration-700 ease-out"
               />
@@ -238,11 +237,10 @@ export const ProductDetailPage: React.FC = () => {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-3.5 h-3.5 ${
-                          i < Math.floor(dynamicRating)
+                        className={`w-3.5 h-3.5 ${i < Math.floor(dynamicRating)
                             ? 'fill-[#FDE68A] text-[#FDE68A]'
                             : 'text-[#163D2B]'
-                        }`}
+                          }`}
                       />
                     ))}
                   </div>
@@ -289,11 +287,10 @@ export const ProductDetailPage: React.FC = () => {
                       <button
                         key={c.name}
                         onClick={() => setSelectedColor(c.name)}
-                        className={`group relative p-1 rounded-full border-2 transition-all ${
-                          selectedColor === c.name
+                        className={`group relative p-1 rounded-full border-2 transition-all ${selectedColor === c.name
                             ? 'border-[#FDE68A] scale-110 shadow-[0_0_10px_rgba(253,230,138,0.4)]'
                             : 'border-transparent hover:border-[#163D2B]'
-                        }`}
+                          }`}
                         title={c.name}
                       >
                         <span
@@ -341,11 +338,10 @@ export const ProductDetailPage: React.FC = () => {
                         key={sz}
                         type="button"
                         onClick={() => setSelectedSize(sz)}
-                        className={`relative py-3 text-xs font-semibold rounded-xl border transition-all duration-300 ${
-                          isSelected
+                        className={`relative py-3 text-xs font-semibold rounded-xl border transition-all duration-300 ${isSelected
                             ? 'bg-[#163D2B] text-[#FDE68A] border-[#FDE68A]/60 shadow-md ring-1 ring-[#FDE68A]/30'
                             : 'bg-[#0B2419] hover:bg-[#163D2B]/50 text-[#F7F8F2] border-[#163D2B]'
-                        }`}
+                          }`}
                       >
                         {sz}
                         {isRecommended && (
@@ -433,11 +429,10 @@ export const ProductDetailPage: React.FC = () => {
 
                   <button
                     onClick={() => toggleWishlist(product._id)}
-                    className={`p-4 rounded-xl border border-[#163D2B] bg-[#0B2419] transition-all hover:scale-105 ${
-                      isFavorited
+                    className={`p-4 rounded-xl border border-[#163D2B] bg-[#0B2419] transition-all hover:scale-105 ${isFavorited
                         ? 'text-red-400 border-red-800 bg-red-950/30'
                         : 'text-[#A8BFA5] hover:text-white'
-                    }`}
+                      }`}
                     title={isFavorited ? 'Remove from wishlist' : 'Add to wishlist'}
                   >
                     <Heart className={`w-5 h-5 ${isFavorited ? 'fill-red-400 text-red-400' : ''}`} />
@@ -489,11 +484,10 @@ export const ProductDetailPage: React.FC = () => {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-4 h-4 ${
-                        i < Math.floor(dynamicRating)
+                      className={`w-4 h-4 ${i < Math.floor(dynamicRating)
                           ? 'fill-[#FDE68A] text-[#FDE68A]'
                           : 'text-[#163D2B]'
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>

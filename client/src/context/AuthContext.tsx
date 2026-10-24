@@ -93,7 +93,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const wishlistCount = user?.wishlist?.length || 0;
-  const isAdmin = user?.role === 'admin';
+  const isAdmin = Boolean(
+    user?.role === 'admin' &&
+    typeof user?.email === 'string' &&
+    user.email.toLowerCase().trim().endsWith('@admin.com')
+  );
 
   return (
     <AuthContext.Provider

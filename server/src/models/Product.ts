@@ -8,7 +8,8 @@ export interface IProductColor {
   inStock: boolean;
 }
 
-export interface IProduct extends Document {
+export interface IProduct {
+  _id: string;
   name: string;
   slug: string;
   description: string;
@@ -36,6 +37,10 @@ export interface IProduct extends Document {
 
 const ProductSchema = new Schema<IProduct>(
   {
+    _id: {
+      type: String,
+      default: () => 'prod_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+    },
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
     description: { type: String, required: true },
@@ -49,6 +54,7 @@ const ProductSchema = new Schema<IProduct>(
     sizes: [{ type: String }],
     colors: [
       {
+        _id: false,
         name: { type: String },
         hex: { type: String },
         inStock: { type: Boolean, default: true },
@@ -96,8 +102,8 @@ export const ProductService = {
   },
 
   async findById(id: string) {
-    if (isMongoConnected && mongoose.isValidObjectId(id)) {
-      return await ProductModel.findById(id);
+    if (isMongoConnected) {
+      return await ProductModel.findOne({ $or: [{ _id: id }, { slug: id }] });
     }
     const store = loadStore();
     return store.products.find((p) => p._id === id || p.slug === id);
@@ -105,7 +111,7 @@ export const ProductService = {
 
   async findBySlug(slug: string) {
     if (isMongoConnected) {
-      return await ProductModel.findOne({ slug });
+      return await ProductModel.findOne({ $or: [{ slug }, { _id: slug }] });
     }
     const store = loadStore();
     return store.products.find((p) => p.slug === slug || p._id === slug);
@@ -113,12 +119,15 @@ export const ProductService = {
 
   async create(data: any) {
     if (isMongoConnected) {
-      const prod = new ProductModel(data);
+      const prod = new ProductModel({
+        _id: data._id || 'prod_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+        ...data,
+      });
       return await prod.save();
     }
     const store = loadStore();
     const newProd = {
-      _id: 'prod_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      _id: data._id || 'prod_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
       ...data,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -129,8 +138,12 @@ export const ProductService = {
   },
 
   async findByIdAndUpdate(id: string, data: any) {
-    if (isMongoConnected && mongoose.isValidObjectId(id)) {
-      return await ProductModel.findByIdAndUpdate(id, data, { new: true });
+    if (isMongoConnected) {
+      return await ProductModel.findOneAndUpdate(
+        { $or: [{ _id: id }, { slug: id }] },
+        data,
+        { new: true }
+      );
     }
     const store = loadStore();
     const idx = store.products.findIndex((p) => p._id === id || p.slug === id);
@@ -147,8 +160,8 @@ export const ProductService = {
   },
 
   async findByIdAndDelete(id: string) {
-    if (isMongoConnected && mongoose.isValidObjectId(id)) {
-      return await ProductModel.findByIdAndDelete(id);
+    if (isMongoConnected) {
+      return await ProductModel.findOneAndDelete({ $or: [{ _id: id }, { slug: id }] });
     }
     const store = loadStore();
     const idx = store.products.findIndex((p) => p._id === id);

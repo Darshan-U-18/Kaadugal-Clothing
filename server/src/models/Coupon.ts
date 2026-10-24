@@ -2,7 +2,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 import { isMongoConnected } from '../config/db';
 import { loadStore, saveStore } from '../config/store';
 
-export interface ICoupon extends Document {
+export interface ICoupon {
+  _id: string;
   code: string;
   discountType: 'percentage' | 'fixed';
   discountAmount: number;
@@ -15,6 +16,10 @@ export interface ICoupon extends Document {
 
 const CouponSchema = new Schema<ICoupon>(
   {
+    _id: {
+      type: String,
+      default: () => 'cpn_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+    },
     code: { type: String, required: true, unique: true, uppercase: true, trim: true },
     discountType: { type: String, enum: ['percentage', 'fixed'], default: 'percentage' },
     discountAmount: { type: Number, required: true },
@@ -52,12 +57,16 @@ export const CouponService = {
   async create(data: any) {
     const cleanCode = data.code.toUpperCase().trim();
     if (isMongoConnected) {
-      const coupon = new CouponModel({ ...data, code: cleanCode });
+      const coupon = new CouponModel({
+        _id: data._id || 'cpn_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+        ...data,
+        code: cleanCode,
+      });
       return await coupon.save();
     }
     const store = loadStore();
     const newCoupon = {
-      _id: 'cpn_' + Date.now(),
+      _id: data._id || 'cpn_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
       ...data,
       code: cleanCode,
       usedCount: 0,
@@ -84,8 +93,8 @@ export const CouponService = {
   },
 
   async delete(id: string) {
-    if (isMongoConnected && mongoose.isValidObjectId(id)) {
-      return await CouponModel.findByIdAndDelete(id);
+    if (isMongoConnected) {
+      return await CouponModel.findOneAndDelete({ $or: [{ _id: id }, { code: id.toUpperCase().trim() }] });
     }
     const store = loadStore();
     const idx = store.coupons.findIndex((c) => c._id === id || c.code === id);

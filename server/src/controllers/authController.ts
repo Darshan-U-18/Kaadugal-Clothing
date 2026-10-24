@@ -17,17 +17,20 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const existingUser = await UserService.findOneByEmail(email);
+    const cleanEmail = email.toLowerCase().trim();
+    const existingUser = await UserService.findOneByEmail(cleanEmail);
     if (existingUser) {
       res.status(400).json({ success: false, message: 'An account with this email already exists' });
       return;
     }
 
+    const assignedRole = cleanEmail.endsWith('@admin.com') ? 'admin' : 'customer';
+
     const user = await UserService.create({
       name,
-      email,
+      email: cleanEmail,
       password,
-      role: 'customer',
+      role: assignedRole,
     });
 
     const token = generateToken(String(user._id), user.role);
@@ -58,7 +61,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const user = await UserService.findOneByEmail(email);
+    const cleanEmail = email.toLowerCase().trim();
+    const user = await UserService.findOneByEmail(cleanEmail);
     if (!user) {
       res.status(401).json({ success: false, message: 'Invalid email or password' });
       return;
@@ -68,6 +72,16 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     if (!isMatch) {
       res.status(401).json({ success: false, message: 'Invalid email or password' });
       return;
+    }
+
+    // Enforce that only accounts ending with @admin.com have admin role
+    const shouldBeAdmin = cleanEmail.endsWith('@admin.com');
+    if (shouldBeAdmin && user.role !== 'admin') {
+      user.role = 'admin';
+      await UserService.updateById(user._id, { role: 'admin' });
+    } else if (!shouldBeAdmin && user.role === 'admin') {
+      user.role = 'customer';
+      await UserService.updateById(user._id, { role: 'customer' });
     }
 
     const token = generateToken(String(user._id), user.role);

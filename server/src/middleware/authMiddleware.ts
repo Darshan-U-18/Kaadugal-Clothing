@@ -49,10 +49,17 @@ export const adminOnly = (
   res: Response,
   next: NextFunction
 ): void => {
-  if (req.user && req.user.role === 'admin') {
+  const email = (req.user?.email || '').toLowerCase().trim();
+  const isAdminRole = req.user?.role === 'admin';
+  const hasAdminEmail = email.endsWith('@admin.com');
+
+  if (isAdminRole && hasAdminEmail) {
     next();
   } else {
-    res.status(403).json({ success: false, message: 'Access denied: Administrator privileges required' });
+    res.status(403).json({
+      success: false,
+      message: 'Access denied: Administrator privileges require an email address ending with @admin.com',
+    });
   }
 };
 

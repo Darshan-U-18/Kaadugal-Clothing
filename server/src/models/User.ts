@@ -15,7 +15,8 @@ export interface IAddress {
   isDefault: boolean;
 }
 
-export interface IUser extends Document {
+export interface IUser {
+  _id: string;
   name: string;
   email: string;
   password: string;
@@ -28,6 +29,10 @@ export interface IUser extends Document {
 }
 
 const AddressSchema = new Schema<IAddress>({
+  _id: {
+    type: String,
+    default: () => 'addr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+  },
   fullName: { type: String, required: true },
   phone: { type: String, required: true },
   street: { type: String, required: true },
@@ -40,6 +45,10 @@ const AddressSchema = new Schema<IAddress>({
 
 const UserSchema = new Schema<IUser>(
   {
+    _id: {
+      type: String,
+      default: () => 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+    },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
@@ -50,13 +59,16 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (this: any, next) {
   if (!this.isModified('password')) return next();
+  if (typeof this.password === 'string' && /^\$2[ab]\$\d{2}\$[./A-Za-z0-9]{53}$/.test(this.password)) {
+    return next();
+  }
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-UserSchema.methods.comparePassword = async function (candidate: string): Promise<boolean> {
+UserSchema.methods.comparePassword = async function (this: any, candidate: string): Promise<boolean> {
   return await bcrypt.compare(candidate, this.password);
 };
 
@@ -73,8 +85,8 @@ export const UserService = {
   },
 
   async findById(id: string) {
-    if (isMongoConnected && mongoose.isValidObjectId(id)) {
-      return await UserModel.findById(id).select('-password');
+    if (isMongoConnected) {
+      return await UserModel.findOne({ _id: id }).select('-password');
     }
     const store = loadStore();
     const user = store.users.find((u) => u._id === id);
@@ -85,12 +97,12 @@ export const UserService = {
     return null;
   },
 
-  async create(data: { name: string; email: string; password: string; role?: 'customer' | 'admin' }) {
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+  async create(data: { name: string; email: string; password: string; role?: 'customer' | 'admin'; _id?: string }) {
     const cleanEmail = data.email.toLowerCase().trim();
 
     if (isMongoConnected) {
       const user = new UserModel({
+        _id: data._id || 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
         ...data,
         email: cleanEmail,
       });
@@ -98,8 +110,9 @@ export const UserService = {
     }
 
     const store = loadStore();
+    const hashedPassword = await bcrypt.hash(data.password, 10);
     const newUser = {
-      _id: 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      _id: data._id || 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
       name: data.name,
       email: cleanEmail,
       password: hashedPassword,
@@ -116,8 +129,8 @@ export const UserService = {
   },
 
   async updateById(id: string, updateData: any) {
-    if (isMongoConnected && mongoose.isValidObjectId(id)) {
-      return await UserModel.findByIdAndUpdate(id, updateData, { new: true }).select('-password');
+    if (isMongoConnected) {
+      return await UserModel.findOneAndUpdate({ _id: id }, updateData, { new: true }).select('-password');
     }
     const store = loadStore();
     const idx = store.users.findIndex((u) => u._id === id);
@@ -132,6 +145,16 @@ export const UserService = {
       return safe;
     }
     return null;
+  },
+
+  async getCustomers() {
+    if (isMongoConnected) {
+      return await UserModel.find({ email: { $not: /@admin\.com$/i } }).select('-password');
+    }
+    const store = loadStore();
+    return (store.users || []).filter(
+      (u: any) => !u.email.toLowerCase().endsWith('@admin.com')
+    );
   },
 
   async comparePassword(candidate: string, hash: string): Promise<boolean> {

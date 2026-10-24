@@ -22,7 +22,8 @@ export interface IShippingAddress {
   country: string;
 }
 
-export interface IOrder extends Document {
+export interface IOrder {
+  _id: string;
   orderNumber: string;
   userId?: string;
   customerEmail: string;
@@ -46,32 +47,44 @@ export interface IOrder extends Document {
   updatedAt: Date;
 }
 
-const OrderItemSchema = new Schema<IOrderItem>({
-  productId: { type: String, required: true },
-  name: { type: String, required: true },
-  image: { type: String, required: true },
-  price: { type: Number, required: true },
-  quantity: { type: Number, required: true },
-  size: { type: String, required: true },
-  color: { type: String, required: true },
-});
+const OrderItemSchema = new Schema<IOrderItem>(
+  {
+    productId: { type: String, required: true },
+    name: { type: String, required: true },
+    image: { type: String, required: true },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
+    size: { type: String, required: true },
+    color: { type: String, required: true },
+  },
+  { _id: false }
+);
+
+const ShippingAddressSchema = new Schema<IShippingAddress>(
+  {
+    fullName: { type: String, required: true },
+    phone: { type: String, required: true },
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    postalCode: { type: String, required: true },
+    country: { type: String, default: 'India' },
+  },
+  { _id: false }
+);
 
 const OrderSchema = new Schema<IOrder>(
   {
+    _id: {
+      type: String,
+      default: () => 'ord_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+    },
     orderNumber: { type: String, required: true, unique: true },
     userId: { type: String },
     customerEmail: { type: String, required: true },
     customerName: { type: String, required: true },
     items: [OrderItemSchema],
-    shippingAddress: {
-      fullName: { type: String, required: true },
-      phone: { type: String, required: true },
-      street: { type: String, required: true },
-      city: { type: String, required: true },
-      state: { type: String, required: true },
-      postalCode: { type: String, required: true },
-      country: { type: String, default: 'India' },
-    },
+    shippingAddress: ShippingAddressSchema,
     shippingMethod: { type: String, default: 'standard' },
     subtotal: { type: Number, required: true },
     discount: { type: Number, default: 0 },
@@ -104,6 +117,7 @@ export const OrderService = {
       Math.floor(100000 + Math.random() * 900000);
 
     const fullOrder = {
+      _id: orderData._id || 'ord_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
       orderNumber,
       trackingNumber: 'TRK-' + Math.random().toString(36).substring(2, 9).toUpperCase(),
       ...orderData,
@@ -116,7 +130,7 @@ export const OrderService = {
 
     const store = loadStore();
     const newOrder = {
-      _id: 'ord_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      _id: orderData._id || 'ord_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
       ...fullOrder,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -136,10 +150,9 @@ export const OrderService = {
 
   async findByIdOrNumber(identifier: string) {
     if (isMongoConnected) {
-      if (mongoose.isValidObjectId(identifier)) {
-        return await OrderModel.findById(identifier);
-      }
-      return await OrderModel.findOne({ orderNumber: identifier });
+      return await OrderModel.findOne({
+        $or: [{ _id: identifier }, { orderNumber: identifier }],
+      });
     }
     const store = loadStore();
     return store.orders.find(
@@ -156,10 +169,14 @@ export const OrderService = {
   },
 
   async updateStatus(id: string, status: string, paymentStatus?: string) {
-    if (isMongoConnected && mongoose.isValidObjectId(id)) {
+    if (isMongoConnected) {
       const updates: any = { orderStatus: status };
       if (paymentStatus) updates.paymentStatus = paymentStatus;
-      return await OrderModel.findByIdAndUpdate(id, updates, { new: true });
+      return await OrderModel.findOneAndUpdate(
+        { $or: [{ _id: id }, { orderNumber: id }] },
+        updates,
+        { new: true }
+      );
     }
     const store = loadStore();
     const idx = store.orders.findIndex(
